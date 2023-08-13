@@ -9,7 +9,6 @@ from models.base_model import BaseModel
 
 class HBNBCommand(cmd.Cmd):
     """Defines the command line class"""
-    
     prompt = '(hbnb) '
 
     def do_quit(self, arg):

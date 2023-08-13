@@ -1,5 +1,9 @@
+#!/usr/bin/python3
+"""Storage Engine"""
+
 import json
 from os.path import exists
+from models.base_model import BaseModel  # Make sure to import your model classes here
 
 class FileStorage:
     """Represent an abstracted storage engine"""
@@ -18,9 +22,9 @@ class FileStorage:
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
         odict = FileStorage.__objects
-        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        objdict = {key: obj.to_dict() for key, obj in odict.items()}
         with open(FileStorage.__file_path, "w") as f:
-            json.dump(objdict, f)
+            json.dump(objdict, f, default=lambda o: o.__dict__)
 
     def reload(self):
         """Deserialize the JSON file __file_path to __objects, if it exists."""

@@ -2,8 +2,6 @@
 """HBnB console."""
 
 import cmd
-import json
-from datetime import datetime
 from models.base_model import BaseModel
 
 
@@ -31,7 +29,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Creates a new instance of
-            BaseModel, saves it, and prints the id"""
+        BaseModel, saves it, and prints the id"""
         if not arg:
             print("** class name missing **")
         elif arg != "BaseModel":
@@ -43,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Prints the string representation of
-            an instance based on the class name and id"""
+        an instance based on the class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -79,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints all string representation of
-            all instances based on the class name"""
+        all instances based on the class name"""
         instances = BaseModel.all()
         if not arg:
             print([str(instance) for instance in instances.values()])
@@ -88,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Updates an instance based on the class name
-            and id by adding or updating attribute"""
+        and id by adding or updating attribute"""
         args = arg.split()
         if not args:
             print("** class name missing **")

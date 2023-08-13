@@ -42,7 +42,8 @@ class BaseModel:
     def save(self):
         """saves and update the public instance attr updated_at"""
         self.updated_at = datetime.now()
-        models.storage.save()  # The storage instance is imported from HBNBCommand
+        storage.new(self)  # Add this instance to storage
+        storage.save()  # Save changes to storage
 
     def to_dict(self):
         """Returns BaseModel dictionary representation"""

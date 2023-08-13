@@ -8,5 +8,4 @@ from datetime import datetime
 
 class TestBaseModel(unittest.TestCase):
     "Defines unit test class"
-
-    
+    pass

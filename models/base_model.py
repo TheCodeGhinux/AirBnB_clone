@@ -3,7 +3,16 @@ from datetime import datetime
 import models
 
 class BaseModel:
+    """Defines class for BaseModel"""
+
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a new BaseModel.
+
+        Args:
+            *args (any): Unused.
+            **kwargs (dict): Key/value pairs of attributes.
+        """
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
@@ -23,11 +32,13 @@ class BaseModel:
             self.updated_at = datetime.now()
 
     def save(self):
+        """Save the new updated_at"""
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
+        """To return the dictionary of the BaseModel instance."""
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()

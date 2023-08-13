@@ -29,15 +29,14 @@ class FileStorage:
     def reload(self):
         """Deserialize the JSON file __file_path to __objects, if it exists."""
         try:
-            with open(FileStorage.__file_path) as f:
+            with open(FileStorage.__file_path, 'r') as f:
                 objdict = json.load(f)
-                for o in objdict.values():
-                    cls_name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(cls_name)(**o))
+                for key, value in objdict.items():
+                    cls_name = value['__class__']
+                    cls = eval(cls_name)
+                    self.__objects[key] = cls(**value)
         except FileNotFoundError:
             return
-
     @classmethod
     def all(cls):
         """Return the dictionary of objects."""

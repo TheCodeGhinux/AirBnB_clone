@@ -1,20 +1,16 @@
 #!/usr/bin/python3
 """BaseModel"""
 
-
 import uuid
 from datetime import datetime
 
 
 class BaseModel:
-    "Defines Base model class"
-
     def __init__(self, *args, **kwargs):
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
-                    setattr(self, key,
-                            datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                    setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
                 elif key != '__class__':
                     setattr(self, key, value)
             if 'id' not in kwargs:
@@ -23,12 +19,10 @@ class BaseModel:
                 self.created_at = datetime.now()
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.now()
-            storage.new(self)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
 
     def __str__(self):
         class_name = self.__class__.__name__
@@ -36,7 +30,6 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.now()
-        storage.save()
 
     def to_dict(self):
         obj_dict = self.__dict__.copy()

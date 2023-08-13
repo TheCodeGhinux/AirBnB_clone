@@ -42,7 +42,10 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id"""
+        """
+        Prints the str repr of an
+        instance based on name of class and id
+        """
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -77,7 +80,10 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """Prints all string representation of all instances based on the class name"""
+        """
+        Prints str repr of
+        all instances based on name of class
+        """
         instances = BaseModel.all()
         if not arg:
             print([str(instance) for instance in instances.values()])
@@ -85,7 +91,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by adding or updating attribute"""
+        """
+        Updates an instance based on the class
+        name and id by adding or updating attribute
+        """
         args = arg.split()
         if not args:
             print("** class name missing **")

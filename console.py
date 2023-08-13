@@ -80,15 +80,15 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-    """
-    Prints all string representation of
-    all instances based on the class name
-    """
-    if not arg:
-        instances = BaseModel.all()
-        print([str(instance) for instance in instances.values()])
-    elif arg != "BaseModel":
-        print("** class doesn't exist **")
+        """
+        Prints all string representation of
+        all instances based on the class name
+        """
+        if not arg:
+            instances = BaseModel.all()
+            print([str(instance) for instance in instances.values()])
+        elif arg != "BaseModel":
+            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """

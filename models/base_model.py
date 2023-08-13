@@ -57,8 +57,11 @@ class BaseModel:
 
     @classmethod
     def all(cls):
-        pass
-
+        """Returns a dictionary of all instances"""
+        return cls.storage.all(cls)
+    
     @classmethod
     def save_instances(cls):
-        pass
+        """Serializes and saves all instances to the JSON file"""
+        cls.storage.save()
+

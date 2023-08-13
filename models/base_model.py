@@ -3,6 +3,7 @@
 
 import uuid
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -30,12 +31,12 @@ class BaseModel:
                 self.created_at = datetime.now()
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.now()
-            storage.new(self)
+            self.storage.new(self)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            self.storage.new(self)
 
     def __str__(self):
         """Return str repr of BaseModel"""
@@ -57,11 +58,8 @@ class BaseModel:
 
     @classmethod
     def all(cls):
-        """Returns a dictionary of all instances"""
-        return cls.storage.all(cls)
-    
+        pass
+
     @classmethod
     def save_instances(cls):
-        """Serializes and saves all instances to the JSON file"""
-        cls.storage.save()
-
+        pass

@@ -5,12 +5,16 @@
 import uuid
 from datetime import datetime
 
+
 class BaseModel:
+    "Defines Base model class"
+
     def __init__(self, *args, **kwargs):
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
-                    setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                    setattr(self, key,
+                            datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
                 elif key != '__class__':
                     setattr(self, key, value)
             if 'id' not in kwargs:
@@ -37,4 +41,3 @@ class BaseModel:
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
-

@@ -4,7 +4,6 @@
 
 import json
 from os.path import exists
-from models import storage  # Import the existing storage instance
 
 class FileStorage:
     """Serializes instances to a JSON file
@@ -14,6 +13,7 @@ class FileStorage:
     __objects = {}
 
     def all(self):
+        from models import storage  # Import here to avoid circular import
         return self.__objects
 
     def new(self, obj):
@@ -21,6 +21,7 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
+        from models import storage  # Import here to avoid circular import
         obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
         with open(self.__file_path, 'w') as file:
             json.dump(obj_dict, file)

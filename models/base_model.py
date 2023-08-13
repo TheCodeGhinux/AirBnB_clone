@@ -52,12 +52,6 @@ class BaseModel:
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
+        if '_sa_instance_state' in obj_dict:
+            del obj_dict['_sa_instance_state']  # Remove SQLAlchemy state
         return obj_dict
-
-    @classmethod
-    def all(cls):
-        pass
-
-    @classmethod
-    def save_instances(cls):
-        pass

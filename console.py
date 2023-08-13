@@ -34,19 +34,18 @@ class HBNBCommand(cmd.Cmd):
         print("Exit the program using EOF (Ctrl+D)")
 
     def do_create(self, arg):
-        """Create a new instance of BaseModel
-        and save it to the JSON file."""
-        if not arg:
+        """Usage: create <class>
+        Create a new class instance and print its id.
+        """
+        argl = arg.split()
+        if len(argl) == 0:
             print("** class name missing **")
-            return
-    
-        if arg != "BaseModel":
+        elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-            return
-    
-        new_instance = BaseModel(storage=storage)  # Pass the storage instance
-        new_instance.save()
-        print(new_instance.id)
+        else:
+            new_instance = eval(argl[0])()
+            new_instance.save()
+            print(new_instance.id)
 
 
     def do_show(self, arg):
@@ -134,6 +133,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    storage = FileStorage()  # Create the storage instance
-    storage.reload()         # Load data from JSON file
     HBNBCommand().cmdloop()

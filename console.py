@@ -6,9 +6,7 @@ import json
 from datetime import datetime
 from models.base_model import BaseModel
 
-
 class HBNBCommand(cmd.Cmd):
-    "Defines class for cmd"
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
@@ -31,7 +29,8 @@ class HBNBCommand(cmd.Cmd):
         print("Exit the program using EOF (Ctrl+D)")
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel, saves it, and prints the id"""
+        """Creates a new instance of
+            BaseModel, saves it, and prints the id"""
         if not arg:
             print("** class name missing **")
         elif arg != "BaseModel":
@@ -42,10 +41,8 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        """
-        Prints the str repr of an
-        instance based on name of class and id
-        """
+        """Prints the string representation of
+            an instance based on the class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -80,21 +77,16 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """
-        Prints all string representation of
-        all instances based on the class name
-        """
+        """Prints all string representation of
+            all instances based on the class name"""
+        instances = BaseModel.all()
         if not arg:
-            instances = BaseModel.all()
             print([str(instance) for instance in instances.values()])
         elif arg != "BaseModel":
             print("** class doesn't exist **")
 
     def do_update(self, arg):
-        """
-        Updates an instance based on the class
-        name and id by adding or updating attribute
-        """
+        """Updates an instance based on the class name and id by adding or updating attribute"""
         args = arg.split()
         if not args:
             print("** class name missing **")

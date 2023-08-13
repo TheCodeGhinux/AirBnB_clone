@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
         elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
-            new_instance = eval(argl[0])()
+            new_instance = eval(argl[0])(storage=storage)  # Pass the storage instance
             new_instance.save()
             print(new_instance.id)
 

@@ -134,4 +134,6 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
+    storage = FileStorage()  # Create the storage instance
+    storage.reload()         # Load data from JSON file
     HBNBCommand().cmdloop()

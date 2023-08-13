@@ -24,23 +24,17 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
-        """Serializes __objects to the JSON file"""
-        obj_dict = {
-            key: obj.to_dict() for key, obj in self.__objects.items()
-            if not isinstance(obj, FileStorage)
-        }
-        with open(self.__file_path, 'w') as file:
-            json.dump(obj_dict, file)
-
+        """Serialize __objects to the JSON file __file_path."""
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            json.dump(objdict, f)
 
     def reload(self):
-        """Deserializes the JSON file to __objects"""
-        if exists(self.__file_path):
-            with open(self.__file_path, 'r') as file:
-                try:
-                    obj_dict = json.load(file)
-                except json.JSONDecodeError:
-                    obj_dict = {}
+        """Deserialize the JSON file to recreate objects."""
+        if exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, 'r') as file:
+                obj_dict = json.load(file)
                 for key, value in obj_dict.items():
                     class_name = value['__class__']
                     cls = eval(class_name)

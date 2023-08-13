@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 from models.base_model import BaseModel
 from models import storage
+from shlex import split
 
 
 class HBNBCommand(cmd.Cmd):
@@ -88,13 +89,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """Prints all string representation of
-            all instances based on the class name"""
-        instances = storage.all()  # Use the storage instance
-        if not arg:
-            print([str(instance) for instance in instances.values()])
-        elif arg != "BaseModel":
+        """Usage: all <class>
+        Display string repr of all instances of a given class.
+        If no class is specified, displays all instantiated objects."""
+        argl = split(arg)
+        if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
+        else:
+            objl = []
+            for obj in storage.all().values():
+                if len(argl) > 0 and argl[0] == obj.__class__.__name__:
+                    objl.append(obj.__str__())
+                elif len(argl) == 0:
+                    objl.append(obj.__str__())
+            print(objl)
 
     def do_update(self, arg):
         """Updates an instance based on the class name

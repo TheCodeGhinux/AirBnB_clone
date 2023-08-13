@@ -90,7 +90,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Prints all string representation of
             all instances based on the class name"""
-        instances = BaseModel.all()
+        instances = storage.all()  # Use the storage instance
         if not arg:
             print([str(instance) for instance in instances.values()])
         elif arg != "BaseModel":

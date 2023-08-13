@@ -39,13 +39,11 @@ class BaseModel:
 
     def __str__(self):
         """Return str repr of BaseModel"""
-        
         class_name = self.__class__.__name__
         return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
     def save(self):
         """saves and update the public instance attr updated_at"""
-        
         self.updated_at = datetime.now()
         storage.save()
 

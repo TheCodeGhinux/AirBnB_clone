@@ -1,22 +1,9 @@
-#!/usr/bin/python3
-"""BaseModel module"""
-
 import uuid
 from datetime import datetime
 import models
 
-
 class BaseModel:
-    """Defines Base model class"""
-
     def __init__(self, *args, **kwargs):
-        """
-        Initialize BaseModel instance
-
-        Args:
-            args: Non-keyword variable-length argument list
-            kwargs: Key-value variable-length argument list
-        """
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
@@ -35,33 +22,14 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-    def __str__(self):
-        """Return str repr of BaseModel"""
-        class_name = self.__class__.__name__
-        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
-
     def save(self):
-        """saves and update the public instance attr updated_at"""
         self.updated_at = datetime.now()
-        models.storage.new(self)  # Add this instance to storage
-        models.storage.save()  # Save changes to storage
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
-        """Returns BaseModel dictionary representation"""
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
-
-    @classmethod
-    def all(cls):
-        return models.storage.all()  # Use the storage instance to get all objects
-
-    @classmethod
-    def save_instances(cls):
-        models.storage.save()  # Save changes to storage
-
-
-if __name__ == "__main__":
-    pass

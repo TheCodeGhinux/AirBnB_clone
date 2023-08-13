@@ -3,7 +3,7 @@ from os.path import exists
 
 class FileStorage:
     """Represent an abstracted storage engine"""
-   __file_path = "file.json"
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):

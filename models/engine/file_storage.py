@@ -3,7 +3,8 @@
 
 import json
 from os.path import exists
-from models.base_model import BaseModel  # Make sure to import your model classes here
+from models.base_model import BaseModel
+
 
 class FileStorage:
     """Represent an abstracted storage engine"""
@@ -37,6 +38,7 @@ class FileStorage:
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             return
+
     @classmethod
     def all(cls):
         """Return the dictionary of objects."""

@@ -18,15 +18,18 @@ class FileStorage:
             json.dump(obj_dict, file)
 
     def reload(self):
-        try:
-            with open(self.__file_path, 'r') as file:
-                obj_dict = json.load(file)
-                for key, value in obj_dict.items():
-                    class_name = value['__class__']
-                    cls = eval(class_name)
-                    self.__objects[key] = cls(**value)
-        except FileNotFoundError:
-            pass
+    try:
+        with open(self.__file_path, 'r') as file:
+            obj_dict = json.load(file)
+            for key, value in obj_dict.items():
+                class_name = value['__class__']
+                cls = eval(class_name)
+                self.__objects[key] = cls(**value)
+    except FileNotFoundError:
+        # If the file doesn't exist, create an empty JSON file
+        with open(self.__file_path, 'w') as file:
+            file.write('{}')
+
 
 storage = FileStorage()
 storage.reload()

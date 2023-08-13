@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"Unit test for base model"
-
+"""Unit test for base model"""
+import time
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
@@ -30,6 +30,10 @@ class TestBaseModel(unittest.TestCase):
     def test_save_method(self):
         obj = BaseModel()
         old_updated_at = obj.updated_at
+
+        # Introduce a short delay (e.g., 1 second) to ensure updated_at changes
+        time.sleep(1)
+
         obj.save()
         self.assertNotEqual(obj.updated_at, old_updated_at)
 

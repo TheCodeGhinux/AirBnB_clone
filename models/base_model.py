@@ -1,13 +1,12 @@
 #!/usr/bin/python3
-"""Module defines BaseModel class"""
-
+"""BaseModel"""
 
 import uuid
 from datetime import datetime
 
 
 class BaseModel:
-    """Defines the BaseModel class"""
+    """Defines Base model class"""
 
     def __init__(self, *args, **kwargs):
         """
@@ -35,21 +34,16 @@ class BaseModel:
             self.updated_at = datetime.now()
 
     def __str__(self):
-        """Return the string representation of BaseModel instance"""
+        """Return string representation of BaseModel"""
         class_name = self.__class__.__name__
         return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
     def save(self):
-        """Update the public instance attribute 'updated_at' with the current datetime"""
+        """Update the public instance attribute updated_at"""
         self.updated_at = datetime.now()
 
     def to_dict(self):
-        """
-        Return a dictionary containing all keys/values of the instance
-
-        Returns:
-            dict: A dictionary representation of the instance
-        """
+        """Return dictionary representation of BaseModel"""
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()

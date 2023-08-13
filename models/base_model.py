@@ -3,7 +3,6 @@
 
 import uuid
 from datetime import datetime
-from models import storage
 
 
 class BaseModel:
@@ -17,7 +16,6 @@ class BaseModel:
             args: Non-keyword variable-length argument list
             kwargs: Key-value variable-length argument list
         """
-        self.storage = kwargs.pop('storage', None)
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
@@ -31,12 +29,10 @@ class BaseModel:
                 self.created_at = datetime.now()
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.now()
-            self.storage.new(self)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            self.storage.new(self)
 
     def __str__(self):
         """Return str repr of BaseModel"""
@@ -46,7 +42,7 @@ class BaseModel:
     def save(self):
         """saves and update the public instance attr updated_at"""
         self.updated_at = datetime.now()
-        self.storage.save()
+        storage.save()  # The storage instance is imported from HBNBCommand
 
     def to_dict(self):
         """Returns BaseModel dictionary representation"""

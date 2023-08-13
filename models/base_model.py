@@ -45,7 +45,7 @@ class BaseModel:
     def save(self):
         """saves and update the public instance attr updated_at"""
         self.updated_at = datetime.now()
-        storage.save()
+        self.storage.save()
 
     def to_dict(self):
         """Returns BaseModel dictionary representation"""

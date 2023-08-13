@@ -11,6 +11,8 @@ from models import storage
 class HBNBCommand(cmd.Cmd):
     """Defines the command line class"""
     prompt = '(hbnb) '
+    __classes = ["BaseModel"]  # Add other class names if needed
+
 
     def do_quit(self, arg):
         """Exit the program"""
@@ -35,7 +37,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Usage: create <class>
-        Create a new class instance and print its id.
+        To create a new class instance and
+        print the class id.
         """
         argl = arg.split()
         if len(argl) == 0:

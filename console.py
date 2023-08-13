@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
+    "Defines class for cmd"
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
@@ -123,4 +124,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-

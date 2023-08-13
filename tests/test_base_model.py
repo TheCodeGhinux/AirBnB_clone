@@ -24,7 +24,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str_method(self):
         obj = BaseModel()
-        expected = f"[BaseModel] ({obj.id}) {obj.__dict__}"
+        expected = "[BaseModel] ({}) {}".format(obj.id, obj.__dict__)
         self.assertEqual(str(obj), expected)
 
     def test_save_method(self):

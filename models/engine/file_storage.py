@@ -1,19 +1,11 @@
-#!/usr/bin/python3
-
-"""File Storage."""
-
 import json
 from os.path import exists
 
 class FileStorage:
-    """Serializes instances to a JSON file
-        and deserializes JSON file to instances"""
-
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        from models import storage  # Import here to avoid circular import
         return self.__objects
 
     def new(self, obj):
@@ -21,7 +13,6 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
-        from models import storage  # Import here to avoid circular import
         obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
         with open(self.__file_path, 'w') as file:
             json.dump(obj_dict, file)
@@ -35,6 +26,7 @@ class FileStorage:
                     cls = eval(class_name)
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
-            # If the file doesn't exist, create an empty JSON file
-            with open(self.__file_path, 'w') as file:
-                file.write('{}')
+            pass
+
+storage = FileStorage()
+storage.reload()

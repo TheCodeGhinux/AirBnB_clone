@@ -55,7 +55,7 @@ class BaseModel:
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
 
-        @classmethod
+    @classmethod
     def all(cls):
         pass
 

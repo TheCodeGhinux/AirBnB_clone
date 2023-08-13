@@ -33,16 +33,20 @@ class HBNBCommand(cmd.Cmd):
         print("Exit the program using EOF (Ctrl+D)")
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel,
-            saves it, and prints the id"""
+        """Create a new instance of BaseModel
+        and save it to the JSON file."""
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+            return
+    
+        if arg != "BaseModel":
             print("** class doesn't exist **")
-        else:
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
+            return
+    
+        new_instance = BaseModel(storage=storage)  # Pass the storage instance
+        new_instance.save()
+        print(new_instance.id)
+
 
     def do_show(self, arg):
         """Prints the string representation of an

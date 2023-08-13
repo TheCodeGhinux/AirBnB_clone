@@ -25,9 +25,13 @@ class FileStorage:
 
     def save(self):
         """Serializes __objects to the JSON file"""
-        obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
+        obj_dict = {
+            key: obj.to_dict() for key, obj in self.__objects.items()
+            if not isinstance(obj, FileStorage)
+        }
         with open(self.__file_path, 'w') as file:
             json.dump(obj_dict, file)
+
 
     def reload(self):
         """Deserializes the JSON file to __objects"""

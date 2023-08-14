@@ -5,15 +5,10 @@ from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """Defines class for State"""
+    """Represent a state.
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize a new State.
+    Attributes:
+        name (str): The name of the state.
+    """
 
-        Args:
-            *args (any): Unused.
-            **kwargs (dict): Key/value pairs of attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.name = ""
+    name = ""

@@ -12,7 +12,10 @@ from shlex import split
 class HBNBCommand(cmd.Cmd):
     """Defines the command line class"""
     prompt = '(hbnb) '
-    __classes = ["BaseModel"]
+    __classes = {
+        "BaseModel",
+        "User"
+    }
 
     def do_quit(self, arg):
         """Exit the program"""

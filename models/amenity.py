@@ -3,17 +3,11 @@
 
 from models.base_model import BaseModel
 
-
 class Amenity(BaseModel):
-    """Defines class for Amenity"""
+    """Defines class for an amenity.
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize a new Amenity.
+    Attributes:
+        name (str): The name of the amenity.
+    """
 
-        Args:
-            *args (any): Unused.
-            **kwargs (dict): Key/value pairs of attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.name = ""
+    name = ""

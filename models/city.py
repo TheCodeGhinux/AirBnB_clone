@@ -3,18 +3,13 @@
 
 from models.base_model import BaseModel
 
-
 class City(BaseModel):
-    """Defines class for City"""
+    """Defines class for a city.
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize a new City.
+    Attributes:
+        state_id (str): The id of the associated state.
+        name (str): The name of the city.
+    """
 
-        Args:
-            *args (any): Unused.
-            **kwargs (dict): Key/value pairs of attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.state_id = ""
-        self.name = ""
+    state_id = ""
+    name = ""

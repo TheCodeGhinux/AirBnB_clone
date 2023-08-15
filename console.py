@@ -25,6 +25,17 @@ class HBNBCommand(cmd.Cmd):
         "Review",
         "City"
     }
+    
+    def default(self, line):
+        """Override default behavior to handle <class name>.count()"""
+        parts = shlex.split(line)
+        if len(parts) >= 3 and parts[1] == ".count()" and parts[0] in self.__classes:
+            class_name = parts[0]
+            class_instances = eval(class_name).all()
+            count = len(class_instances)
+            print(count)
+        else:
+            print("*** Unknown syntax:", line)
 
     def do_quit(self, arg):
         """Exit the program"""

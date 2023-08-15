@@ -25,7 +25,7 @@ class HBNBCommand(cmd.Cmd):
         "Review",
         "City"
     }
-    
+
     def default(self, line):
         """Override default behavior to handle <class name>.count()"""
         parts = shlex.split(line)

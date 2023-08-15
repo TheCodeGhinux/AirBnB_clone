@@ -8,6 +8,7 @@ from models.engine.file_storage import FileStorage
 import os
 import json
 
+
 class TestFileStorage(unittest.TestCase):
     """
     Defines class for file storage
@@ -39,6 +40,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(len(all_objs), 2)
         self.assertIn("BaseModel." + obj1.id, all_objs)
         self.assertIn("User." + obj2.id, all_objs)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -20,7 +20,7 @@ class TestFileStorage(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove(self.storage._FileStorage__file_path)
-        except:
+        except FileNotFoundError:
             pass
 
     def test_all_empty(self):

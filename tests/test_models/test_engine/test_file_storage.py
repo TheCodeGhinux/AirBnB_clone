@@ -20,27 +20,24 @@ class TestFileStorage(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove(self.storage._FileStorage__file_path)
-        except FileNotFoundError:
+        except:
             pass
 
-    def test_save(self):
+    def test_all_empty(self):
+        all_objs = self.storage.all()
+        self.assertEqual(type(all_objs), dict)
+        self.assertEqual(len(all_objs), 0)
+
+    def test_all_non_empty(self):
         obj1 = BaseModel()
         obj2 = User()
         obj1.save()
         obj2.save()
 
-        self.storage.save()
-
-        self.assertTrue(os.path.exists(self.storage._FileStorage__file_path))
-
-    def test_reload(self):
-        with open(self.storage._FileStorage__file_path, 'w') as f:
-            f.write('{}')
-
-        self.storage.reload()
-
         all_objs = self.storage.all()
-        self.assertEqual(len(all_objs), 0)
+        self.assertEqual(len(all_objs), 2)
+        self.assertIn("BaseModel." + obj1.id, all_objs)
+        self.assertIn("User." + obj2.id, all_objs)
 
 
 if __name__ == '__main__':

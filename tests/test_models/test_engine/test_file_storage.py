@@ -39,6 +39,29 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn("BaseModel." + obj1.id, all_objs)
         self.assertIn("User." + obj2.id, all_objs)
 
+    def test_save(self):
+        obj1 = BaseModel()
+        obj1.save()
+
+        self.storage.reload()
+
+        all_objs = self.storage.all()
+        self.assertEqual(len(all_objs), 1)
+        self.assertIn("BaseModel." + obj1.id, all_objs)
+
+    def test_reload(self):
+        obj1 = BaseModel()
+        obj1.save()
+
+        # Manually modify the saved file
+        with open(self.storage._FileStorage__file_path, "w") as f:
+            f.write("{}")
+
+        self.storage.reload()
+
+        all_objs = self.storage.all()
+        self.assertEqual(len(all_objs), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

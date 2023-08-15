@@ -152,8 +152,9 @@ class HBNBCommand(cmd.Cmd):
         args = shlex.split(arg)
         if (
             len(args) >= 2 and
-            args[1] == ".count()" 
-            and args[0] in self.__classes):
+            args[1] == ".count()"
+            and args[0] in self.__classes
+        ):
             class_name = args[0]
             class_instances = eval(class_name).all()
             count = len(class_instances)

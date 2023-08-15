@@ -170,16 +170,13 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""
-        try:
-            class_name = arg.split('.')[0]
-            if class_name in HBNBCommand.__classes:
-                class_instances = eval(class_name).all()
-                count = len(class_instances)
-                print(count)
-            else:
-                print("** class doesn't exist **")
-        except Exception as e:
-            print("**", str(e))
+        class_name = arg
+        if class_name in self.__classes:
+            class_instances = eval(class_name).all()
+            count = len(class_instances)
+            print(count)
+        else:
+            print("** class doesn't exist **")
 
 
 if __name__ == '__main__':

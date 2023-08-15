@@ -146,16 +146,18 @@ class HBNBCommand(cmd.Cmd):
         instance.save()
 
     def do_count(self, arg):
-        """Usage: count <class>
+        """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""
-        args = arg.split()
-        if len(args) == 0 or args[0] not in HBNBCommand.__classes:
-            print("** class name missing **")
-        else:
-            class_name = args[0]
-            class_instances = eval(class_name).all()
-            count = len(class_instances)
-            print(count)
+        try:
+            class_name = arg.split('.')[0]
+            if class_name in HBNBCommand.__classes:
+                class_instances = eval(class_name).all()
+                count = len(class_instances)
+                print(count)
+            else:
+                print("** class doesn't exist **")
+        except Exception as e:
+            print("**", str(e))
 
 
 if __name__ == '__main__':

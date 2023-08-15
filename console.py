@@ -27,21 +27,6 @@ class HBNBCommand(cmd.Cmd):
         "City"
     }
 
-    def default(self, line):
-        """Override default behavior to handle <class name>.count()"""
-        parts = shlex.split(line)
-        if (
-            len(parts) >= 3 and
-            parts[1] == ".count()" and
-            parts[0] in self.__classes
-        ):
-            class_name = parts[0]
-            class_instances = eval(class_name).all()
-            count = len(class_instances)
-            print(count)
-        else:
-            print("*** Unknown syntax:", line)
-
     def do_quit(self, arg):
         """Exit the program"""
         return True
@@ -164,16 +149,14 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""
-        try:
-            class_name = arg.split('.')[0]
-            if class_name in HBNBCommand.__classes:
-                class_instances = eval(class_name).all()
-                count = len(class_instances)
-                print(count)
-            else:
-                print("** class doesn't exist **")
-        except Exception as e:
-            print("**", str(e))
+        args = shlex.split(arg)
+        if len(args) >= 2 and args[1] == ".count()" and args[0] in self.__classes:
+            class_name = args[0]
+            class_instances = eval(class_name).all()
+            count = len(class_instances)
+            print(count)
+        else:
+            print("*** Unknown syntax:", arg)
 
 
 if __name__ == '__main__':

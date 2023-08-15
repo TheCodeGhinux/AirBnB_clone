@@ -55,55 +55,58 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an
-            instance based on the class name and id"""
-        args = arg.split()
-        if len(args) == 0:
+        """Usage: show <class> <id> or <class>.show(<id>)
+        Display the string representation of a class instance of a given id.
+        """
+        argl = split(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(args) < 2:
+        elif len(argl) == 1:
             print("** instance id missing **")
+        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
+            print("** no instance found **")
         else:
-            key = "{}.{}".format(args[0], args[1])
-            instances = storage.all()
-            if key in instances:
-                print(instances[key])
-            else:
-                print("** no instance found **")
+            print(objdict["{}.{}".format(argl[0], argl[1])])
 
     def do_destroy(self, arg):
-        """Usage: destroy <class> <id>
+        """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
-        args = arg.split()
-        if len(args) == 0:
+        argl = split(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(args) < 2:
+        elif len(argl) == 1:
             print("** instance id missing **")
+        elif "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
+            print("** no instance found **")
         else:
-            key = "{}.{}".format(args[0], args[1])
-            instances = storage.all()
-            if key in instances:
-                del instances[key]
-                storage.save()
-            else:
-                print("** no instance found **")
+            del objdict["{}.{}".format(argl[0], argl[1])]
+            storage.save()
 
     def do_all(self, arg):
         """Usage: all [class]
         Display string repr of all instances of a given class.
         If no class is specified, displays all instantiated objects."""
         args = arg.split()
-        instances = storage.all()
         if len(args) > 0 and args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
-            obj_list = []
-            for obj in instances.values():
-                if len(args) == 0 or obj.__class__.__name__ == args[0]:
-                    obj_list.append(str(obj))
+            instances = storage.all()
+            if len(args) == 0:
+                obj_list = [str(obj) for obj in instances.values()]
+            else:
+                class_name = args[0]
+                if class_name in HBNBCommand.__classes:
+                    class_instances = eval(class_name).all()
+                    obj_list = [str(obj) for obj in class_instances.values()]
+                else:
+                    print("** class doesn't exist **")
+                    return
             print(obj_list)
 
     def do_update(self, arg):
@@ -141,6 +144,18 @@ class HBNBCommand(cmd.Cmd):
         instance = instances[key]
         setattr(instance, attribute_name, attribute_value)
         instance.save()
+
+    def do_count(self, arg):
+        """Usage: count <class>
+        Retrieve the number of instances of a given class."""
+        args = arg.split()
+        if len(args) == 0 or args[0] not in HBNBCommand.__classes:
+            print("** class name missing **")
+        else:
+            class_name = args[0]
+            class_instances = eval(class_name).all()
+            count = len(class_instances)
+            print(count)
 
 
 if __name__ == '__main__':

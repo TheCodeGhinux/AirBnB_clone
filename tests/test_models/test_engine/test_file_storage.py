@@ -1,19 +1,17 @@
 #!/usr/bin/python3
-"""Unit test for Filestorage"""
+"""Unit test for FileStorage"""
+
 import unittest
+import os
 from models.base_model import BaseModel
 from models.user import User
-from models import storage
 from models.engine.file_storage import FileStorage
-import os
-import json
 
 
 class TestFileStorage(unittest.TestCase):
     """
-    Defines class for file storage
-    unit test.
-    Tes the methods in file storage
+    Defines class for file storage unit test.
+    Tests the methods in file storage.
     """
 
     def setUp(self):

@@ -49,7 +49,9 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(place.number_rooms, 0)
 
     def test_place_number_bathrooms(self):
-        """Test if Place number_bathrooms attribute is initialized correctly."""
+        """Test if Place number_bathrooms
+        attribute is initialized correctly.
+        """
         place = Place()
         self.assertEqual(place.number_bathrooms, 0)
 

@@ -27,6 +27,26 @@ class HBNBCommand(cmd.Cmd):
         "City"
     }
 
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"^(.*?)\.(.*?)\((.*?)\)$", arg)
+        if match:
+            class_name = match.group(1)
+            if class_name in self.__classes and match.group(2) in argdict:
+                command = match.group(2)
+                arguments = match.group(3)
+                call = "{} {}".format(class_name, arguments)
+                return argdict[command](call)
+        print("*** Unknown syntax:", arg)
+        return False
+
     def do_quit(self, arg):
         """Exit the program"""
         return True
@@ -149,18 +169,16 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""
-        args = shlex.split(arg)
-        if (
-            len(args) >= 2 and
-            args[1] == ".count()"
-            and args[0] in self.__classes
-        ):
-            class_name = args[0]
-            class_instances = eval(class_name).all()
-            count = len(class_instances)
-            print(count)
-        else:
-            print("*** Unknown syntax:", arg)
+        try:
+            class_name = arg.split('.')[0]
+            if class_name in HBNBCommand.__classes:
+                class_instances = eval(class_name).all()
+                count = len(class_instances)
+                print(count)
+            else:
+                print("** class doesn't exist **")
+        except Exception as e:
+            print("**", str(e))
 
 
 if __name__ == '__main__':

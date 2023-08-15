@@ -2,6 +2,7 @@
 
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """Defines class for Review
 
@@ -14,4 +15,3 @@ class Review(BaseModel):
     place_id = ""
     user_id = ""
     text = ""
-

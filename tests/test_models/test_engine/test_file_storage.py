@@ -33,6 +33,9 @@ class TestFileStorage(unittest.TestCase):
         obj2 = User()
         obj1.save()
         obj2.save()
+        
+        self.storage.save()
+        self.storage.reload()
 
         all_objs = self.storage.all()
         self.assertEqual(len(all_objs), 2)

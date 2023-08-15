@@ -8,6 +8,16 @@ from models.user import User
 from models.engine.file_storage import FileStorage
 
 
+#!/usr/bin/python3
+"""Unit test for FileStorage"""
+
+import unittest
+import os
+from models.base_model import BaseModel
+from models.user import User
+from models.engine.file_storage import FileStorage
+
+
 class TestFileStorage(unittest.TestCase):
     """
     Defines class for file storage unit test.
@@ -20,7 +30,7 @@ class TestFileStorage(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove(self.storage._FileStorage__file_path)
-        except:
+        except FileNotFoundError:
             pass
 
     def test_reload(self):

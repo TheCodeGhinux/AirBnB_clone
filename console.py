@@ -79,7 +79,8 @@ class HBNBCommand(cmd.Cmd):
         Display the string representation of a class instance of a given id.
         """
         args = shlex.split(arg)
-        if len(args) >= 2 and args[1] == ".show()" and args[0] in self.__classes:
+        if len(args) >= 2 and args[1].endswith(".show()") and \
+        args[0] in self.__classes:
             class_name = args[0]
             instance_id = args[1][:-8]  # Remove ".show()"
             obj_key = "{}.{}".format(class_name, instance_id)

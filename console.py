@@ -150,37 +150,39 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name and
         id by adding or updating attribute
         """
-        args = arg.split()
-        if len(args) == 0:
+        argl = parse(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
             print("** class name missing **")
             return
-        elif args[0] not in HBNBCommand.__classes:
+        elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-        elif len(args) < 2:
+        elif len(argl) == 1:
             print("** instance id missing **")
             return
 
-        instances = storage.all()
-        key = args[0] + '.' + args[1]
-        if key not in instances:
+        class_name = argl[0]
+        instance_id = argl[1]
+        obj_key = "{}.{}".format(class_name, instance_id)
+
+        if obj_key in objdict:
+            if len(argl) == 2:
+                print("** attribute name missing **")
+                return
+            elif len(argl) == 3:
+                print("** value missing **")
+                return
+
+            attribute_name = argl[2]
+            attribute_value = argl[3]
+
+            instance = objdict[obj_key]
+            setattr(instance, attribute_name, attribute_value)
+            instance.save()
+        else:
             print("** no instance found **")
-            return
-
-        if len(args) < 3:
-            print("** attribute name missing **")
-            return
-        elif len(args) < 4:
-            print("** value missing **")
-            return
-
-        attribute_name = args[2]
-        attribute_value = args[3]
-
-        instance = instances[key]
-        setattr(instance, attribute_name, attribute_value)
-        instance.save()
-
+    
     def do_count(self, arg):
         """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""

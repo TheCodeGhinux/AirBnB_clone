@@ -50,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
                 return argdict[command](f"{class_name} {arguments}")
         print("*** Unknown syntax:", arg)
         return False
-    
+
     def do_quit(self, arg):
         """Exit the program"""
         return True
@@ -106,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
-        argl = arg.split()
+        argl = parse(arg)
         objdict = storage.all()
         if len(argl) == 0:
             print("** class name missing **")
@@ -114,11 +114,15 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(argl) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
-            print("** no instance found **")
         else:
-            del objdict["{}.{}".format(argl[0], argl[1])]
-            storage.save()
+            class_name = argl[0]
+            instance_id = argl[1]
+            obj_key = "{}.{}".format(class_name, instance_id)
+            if obj_key in objdict:
+                del objdict[obj_key]
+                storage.save()
+            else:
+                print("** no instance found **")
 
     def do_all(self, arg):
         """Usage: all [class]

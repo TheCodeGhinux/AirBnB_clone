@@ -15,7 +15,21 @@ from models import storage
 
 
 def parse(arg):
-    return arg.split()
+    curly_braces = re.search(r"\{(.*?)\}", arg)
+    brackets = re.search(r"\[(.*?)\]", arg)
+    if curly_braces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            lexer = split(arg[:brackets.span()[0]])
+            retl = [i.strip(",") for i in lexer]
+            retl.append(brackets.group())
+            return retl
+    else:
+        lexer = split(arg[:curly_braces.span()[0]])
+        retl = [i.strip(",") for i in lexer]
+        retl.append(curly_braces.group())
+        return retl
 
 
 class HBNBCommand(cmd.Cmd):
@@ -31,24 +45,27 @@ class HBNBCommand(cmd.Cmd):
         "City"
     }
 
+
     def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
         argdict = {
             "all": self.do_all,
             "show": self.do_show,
             "destroy": self.do_destroy,
-            "count": self.do_count,
-            "update": self.do_update
+            "update": self.do_update,
+            "count": self.do_count
         }
-        match = re.search(r"^(.*?)\.([a-zA-Z_]\w*)\((.*?)\)$", arg)
+        
+        match = re.search(r"([A-Za-z_]+)\.([A-Za-z_]+)\((.*?)\)", arg)
         if match:
             class_name = match.group(1)
             command = match.group(2)
             arguments = match.group(3)
             if class_name in self.__classes and command in argdict:
-                return argdict[command](class_name, arguments)
+                return argdict[command](f"{class_name} {arguments}")
         print("*** Unknown syntax:", arg)
         return False
+
 
     def do_quit(self, arg):
         """Exit the program"""
@@ -81,18 +98,18 @@ class HBNBCommand(cmd.Cmd):
         """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
-        argl = parse(arg)
-        objdict = storage.all()
-        if len(argl) == 0:
+        args = arg.split()
+        if len(args) < 2:
             print("** class name missing **")
-        elif argl[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-        elif len(argl) == 1:
-            print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
-            print("** no instance found **")
+            return
+        class_name = args[0]
+        instance_id = args[1]
+        obj_key = "{}.{}".format(class_name, instance_id)
+        objdict = storage.all()
+        if obj_key in objdict:
+            print(objdict[obj_key])
         else:
-            print(objdict["{}.{}".format(argl[0], argl[1])])
+            print("** no instance found **")
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
@@ -171,8 +188,9 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Usage: <class name>.count()
         Retrieve the number of instances of a given class."""
-        class_name = arg
-        if class_name in self.__classes:
+        args = arg.split()
+        if len(args) == 1 and args[0] in self.__classes:
+            class_name = args[0]
             class_instances = eval(class_name).all()
             count = len(class_instances)
             print(count)

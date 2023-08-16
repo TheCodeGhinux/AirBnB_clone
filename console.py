@@ -2,7 +2,7 @@
 """HBnB console."""
 
 import cmd
-from shlex import split
+from shlex import split, quote
 import re
 from models.base_model import BaseModel
 from models.user import User
@@ -11,7 +11,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-
 from models import storage
 
 
@@ -61,8 +60,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Usage: create <class>
-        To create a new class instance and
-        print the class id.
+        To create a new class instance and print the class id.
         """
         args = arg.split()
         if len(args) == 0:
@@ -75,22 +73,21 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        """Usage: <class name>.show(<id>)
+        """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
-        args = shlex.split(arg)
-        if len(args) >= 2 and args[1].endswith(".show()") and \
-        args[0] in self.__classes:
-            class_name = args[0]
-            instance_id = args[1][:-8]  # Remove ".show()"
-            obj_key = "{}.{}".format(class_name, instance_id)
-            objdict = storage.all()
-            if obj_key in objdict:
-                print(objdict[obj_key])
-            else:
-                print("** no instance found **")
+        argl = parse(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
+            print("** class name missing **")
+        elif argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(argl) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
+            print("** no instance found **")
         else:
-            print("*** Unknown syntax:", arg)
+            print(objdict["{}.{}".format(argl[0], argl[1])])
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)

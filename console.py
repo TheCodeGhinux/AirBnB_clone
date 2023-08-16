@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
-    ef do_show(self, arg):
+    def do_show(self, arg):
         """Usage: <class name>.show(<id>)
         Display the string representation of a class instance of a given id.
         """

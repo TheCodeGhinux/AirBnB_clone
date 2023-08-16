@@ -74,22 +74,22 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
-    def do_show(self, arg):
-        """Usage: show <class> <id> or <class>.show(<id>)
+    ef do_show(self, arg):
+        """Usage: <class name>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
-        argl = split(arg)
-        objdict = storage.all()
-        if len(argl) == 0:
-            print("** class name missing **")
-        elif argl[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-        elif len(argl) == 1:
-            print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
-            print("** no instance found **")
+        args = shlex.split(arg)
+        if len(args) >= 2 and args[1] == ".show()" and args[0] in self.__classes:
+            class_name = args[0]
+            instance_id = args[1][:-8]  # Remove ".show()"
+            obj_key = "{}.{}".format(class_name, instance_id)
+            objdict = storage.all()
+            if obj_key in objdict:
+                print(objdict[obj_key])
+            else:
+                print("** no instance found **")
         else:
-            print(objdict["{}.{}".format(argl[0], argl[1])])
+            print("*** Unknown syntax:", arg)
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)

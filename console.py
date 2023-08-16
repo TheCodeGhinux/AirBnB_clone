@@ -40,12 +40,13 @@ class HBNBCommand(cmd.Cmd):
             "count": self.do_count,
             "update": self.do_update
         }
-        match = re.search(r"^(.*?)\.(.*?)\(\)$", arg)
+        match = re.search(r"^(.*?)\.([a-zA-Z_]\w*)\((.*?)\)$", arg)
         if match:
             class_name = match.group(1)
-            if class_name in self.__classes and match.group(2) in argdict:
-                command = match.group(2)
-                return argdict[command](class_name)
+            command = match.group(2)
+            arguments = match.group(3)
+            if class_name in self.__classes and command in argdict:
+                return argdict[command](class_name, arguments)
         print("*** Unknown syntax:", arg)
         return False
 

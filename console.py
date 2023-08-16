@@ -14,6 +14,10 @@ from models.review import Review
 from models import storage
 
 
+def parse(arg):
+    return arg.split()
+
+
 class HBNBCommand(cmd.Cmd):
     """Defines the command line class"""
     prompt = '(hbnb) '
